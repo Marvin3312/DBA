@@ -53,3 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+ // Evento para redirigir al crear cliente
+ document.getElementById('crearClienteBtn').addEventListener('click', function() {
+    window.location.href = 'views/crear_clientes.html'; // Ajusta la ruta a tu estructura de carpetas
+});

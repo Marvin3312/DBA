@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cliente</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="crear_clientes.js" defer></script>
+</head>
+<body>
+    
+
+    <form id="crearClienteForm">
+        <h1>Crear Cliente</h1>
+        <label for="Nombre1">Nombre:</label>
+        <input type="text" id="Nombre1" name="Nombre1" required><br>
+
+        <label for="Apellido1">Apellido:</label>
+        <input type="text" id="Apellido1" name="Apellido1" required><br>
+
+        <label for="DPI1">DPI:</label>
+        <input type="text" id="DPI1" name="DPI1" required><br>
+
+        <label for="Direccion1">Dirección:</label>
+        <input type="text" id="Direccion1" name="Direccion1" required><br>
+
+        <label for="Telefono1">Teléfono:</label>
+        <input type="text" id="Telefono1" name="Telefono1" required><br>
+
+        <label for="Nacimiento1">Fecha de Nacimiento:</label>
+        <input type="date" id="Nacimiento1" name="Nacimiento1" required><br>
+
+        <label for="Usuario1">Usuario:</label>
+        <input type="text" id="Usuario1" name="Usuario1" required><br>
+
+        <label for="Contrasena1">Contraseña:</label>
+        <input type="password" id="Contrasena1" name="Contrasena1" required><br>
+
+        <label for="Moneda1">Moneda:</label>
+        <select id="Moneda1" name="Moneda1" required>
+            <option value="" disabled selected>Seleccione una moneda</option>
+            <option value="Q">Quetzal (Q)</option>
+            <option value="USD">Dólar (USD)</option>
+        </select><br>
+
+        <label for="Tipo1">Tipo de Cuenta:</label>
+        <select id="Tipo1" name="Tipo1" required>
+            <option value="" disabled selected>Seleccione un tipo de cuenta</option>
+            <option value="1">Ahorro</option>
+            <option value="2">Monetario</option>
+            
+        </select><br>
+
+
+
+        <button type="submit">Crear Cliente</button>
+     
+        <button type="button" id="regresarBtn">Regresar al Inicio</button>
+
+    </form>
+
+    </form>
+</body>
+</html>

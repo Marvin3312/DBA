@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors'); 
 const bodyParser = require('body-parser');
-
-const {connectDB, sql} = require('./db');
+const { connectDB, sql } = require('./db'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +9,9 @@ const PORT = 3000;
 // Middleware para parsear JSON
 app.use(express.json());
 app.use(cors());
+
+app.use('/views', express.static('../views'));
+
 
 // Ruta de prueba para consultar datos
 app.get('/clientes', async (req, res) => {
@@ -23,9 +25,7 @@ app.get('/clientes', async (req, res) => {
     }
 });
 
-
-
-
+// Ruta para inicio de sesión
 app.post('/login', async (req, res) => {
     try {
         const { usuario, contraseña } = req.body;
@@ -50,12 +50,39 @@ app.post('/login', async (req, res) => {
         return res.status(401).json({ error: "❌ Usuario o contraseña incorrectos" });
 
     } catch (err) {
-       
         return res.status(500).json({ error: err.message || "Error interno del servidor" });
     }
 });
 
+// Ruta para crear un cliente
+app.post('/crear_cliente', async (req, res) => {
+    try {
+        const { Nombre1, Apellido1, DPI1, Direccion1, Telefono1, Nacimiento1, Usuario1, Contrasena1, Moneda1, Tipo1 } = req.body;
 
+        let pool = await connectDB();
+        const resultado = await pool.request()
+            .input('Nombre1', sql.VarChar, Nombre1)
+            .input('Apellido1', sql.VarChar, Apellido1)
+            .input('DPI1', sql.VarChar, DPI1)
+            .input('Direccion1', sql.VarChar, Direccion1)
+            .input('Telefono1', sql.VarChar, Telefono1)
+            .input('Nacimiento1', sql.Date, new Date(Nacimiento1).toISOString().split('T')[0]) // Asegúrate de que la fecha sea válida
+            .input('Usuario1', sql.VarChar, Usuario1)
+            .input('Contrasena1', sql.VarChar, Contrasena1)
+            .input('Moneda1', sql.VarChar, Moneda1)
+            .input('Tipo1', sql.Int, parseInt(Tipo1)) // Asegúrate de que sea un número
+            .execute('CrearCuenta');
+
+        console.log("🔍 Respuesta SQL Server:", resultado);
+        res.json({ mensaje: "✅ Cliente creado exitosamente.", resultado });
+
+    } catch (err) {
+        console.error("❌ Error en la API:", err);
+        res.status(500).json({ error: err.message || "Error al crear cliente" });
+    }
+});
+
+// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
