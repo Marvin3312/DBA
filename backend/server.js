@@ -82,6 +82,33 @@ app.post('/crear_cliente', async (req, res) => {
     }
 });
 
+// Ruta para realizar una transacción
+app.post('/transaccion', async (req, res) => {
+    try {
+        const { CuentaOrigenP, CuentaDestinoP, MontoP } = req.body;
+
+        if (!CuentaOrigenP || !CuentaDestinoP || !MontoP) {
+            return res.status(400).json({ error: "Todos los campos son obligatorios" });
+        }
+
+        let pool = await connectDB();
+        const resultado = await pool.request()
+            .input('CuentaOrigenP', sql.Int, CuentaOrigenP)
+            .input('CuentaDestinoP', sql.Int, CuentaDestinoP)
+            .input('MontoP', sql.Decimal, MontoP) // Asegurar que monto sea un número válido
+            .execute('transferencia'); // Llamando al procedimiento almacenado
+
+        console.log("🔍 Respuesta SQL Server:", resultado);
+        res.json({ mensaje: "✅ Transacción realizada exitosamente.", resultado });
+
+    } catch (err) {
+        console.error("❌ Error en la transacción:", err);
+        res.status(500).json({ error: err.message || "Error al procesar la transacción" });
+    }
+});
+
+
+
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
